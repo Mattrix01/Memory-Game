@@ -53,8 +53,10 @@ const cardArray = [
 cardArray.sort(() => 0.5 - Math.random());
 
 const gridDisplay = document.querySelector("#grid");
-const cardsChosen = [];
-const cardsChosenIds = [];
+const resultDisplay = document.querySelector("#result");
+// let can change the array rather than just pushing to it
+let cardsChosen = [];
+let cardsChosenIds = [];
 const cardsWon = [];
 
 // for each item in my array, create an element.
@@ -76,9 +78,17 @@ createBoard();
 function checkMatch() {
   // searching through only img in grid id, could change to general
   const cards = document.querySelectorAll("#grid img");
+  const optionOneId = cardsChosenIds[0];
+  const optionTwoId = cardsChosenIds[1];
   console.log("Check for match!");
-  // into the array and get this card, and assign it the background colour of white if they both match
+  if (optionOneId == optionTwoId) {
+    cards[cardsChosenIds[0]].setAttribute("src", images / blank.png);
+    cards[cardsChosenIds[1]].setAttribute("src", images / blank.png);
+
+    alert("You have a match!");
+  }
   if (cardsChosen[0] == cardsChosen[1]) {
+    // into the array and get this card, and assign it the background colour of white if they both match
     alert("You found a match!");
     cards[cardsChosenIds[0]].setAttribute("src", images / white.png);
     cards[cardsChosenIds[1]].setAttribute("src", images / white.png);
@@ -86,6 +96,21 @@ function checkMatch() {
     cards[cardsChosenIds[0]].removeEventListener("click", flipCard);
     cards[cardsChosenIds[1]].removeEventListener("click", flipCard);
     cardsWon.push(cardsChosen);
+    // anything else if not match we do following.
+  } else {
+    cards[optionOneId].setAttribute("src", images / blank.png);
+    cards[optionTwoId].setAttribute("src", images / blank.png);
+    alert("No match, Try again!");
+  }
+  resultDisplay.textContent = cardsWon.length;
+  // resetting array so we can do this process all over again.
+  cardsChosen = [];
+  cardsChosenIds = [];
+  // if we get all the cards write...
+  // dividing by /2 because can only have 6 matches out of the 12.
+
+  if (cardsWon.length == cardArray.length / 2) {
+    resultDisplay.innerHTML = "Congratulations you found all the matches!";
   }
 }
 
