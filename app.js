@@ -54,6 +54,7 @@ cardArray.sort(() => 0.5 - Math.random());
 
 const gridDisplay = document.querySelector("#grid");
 const cardsChosen = [];
+const cardsChosenIds = [];
 
 // for each item in my array, create an element.
 function createBoard() {
@@ -71,11 +72,25 @@ function createBoard() {
 
 createBoard();
 
+function checkMatch() {
+  // searching through only img in grid id, could change to general
+  document.querySelectorAll("#grid img");
+  console.log("Check for match!");
+  if (cardsChosen[0] == cardsChosen[1]) {
+    alert("You found a match!");
+  }
+}
+
 function flipCard() {
   // whatever element we clicked and get its attribute data.
   // this keyword is allowing us to interact to whatever element we click
   const cardId = this.getAttribute("data-id");
   // push item into a new array
   cardsChosen.push(cardArray[cardId].name);
+  cardsChosenIds.push(cardId);
   this.setAttribute("src", cardArray[cardId].img);
+  // after 500 milliseconds run function above.
+  if (cardsChosen.length === 2) {
+    setTimeout(checkMatch, 500);
+  }
 }
