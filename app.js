@@ -55,6 +55,7 @@ cardArray.sort(() => 0.5 - Math.random());
 const gridDisplay = document.querySelector("#grid");
 const cardsChosen = [];
 const cardsChosenIds = [];
+const cardsWon = [];
 
 // for each item in my array, create an element.
 function createBoard() {
@@ -74,10 +75,17 @@ createBoard();
 
 function checkMatch() {
   // searching through only img in grid id, could change to general
-  document.querySelectorAll("#grid img");
+  const cards = document.querySelectorAll("#grid img");
   console.log("Check for match!");
+  // into the array and get this card, and assign it the background colour of white if they both match
   if (cardsChosen[0] == cardsChosen[1]) {
     alert("You found a match!");
+    cards[cardsChosenIds[0]].setAttribute("src", images / white.png);
+    cards[cardsChosenIds[1]].setAttribute("src", images / white.png);
+    // removing ability to click on the card
+    cards[cardsChosenIds[0]].removeEventListener("click", flipCard);
+    cards[cardsChosenIds[1]].removeEventListener("click", flipCard);
+    cardsWon.push(cardsChosen);
   }
 }
 
